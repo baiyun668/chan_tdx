@@ -1,9 +1,6 @@
 LIBRARY chan_tdx
 EXPORTS
-    RegisterFunc
-    GetFunCount
-    GetFunName
-    GetFunPtr
+    RegisterTdxFunc
     ZEN_BI_FRAC
     ZEN_BI
     ZEN_SEG
