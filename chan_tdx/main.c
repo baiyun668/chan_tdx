@@ -666,7 +666,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
  *   RegisterTdxFunc(&pInfo);
  *   // 然后遍历 pInfo 数组直到 {0, NULL}
  */
-EXPORT BOOL CDECL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
+EXPORT BOOL STDCALL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
     if (pInfo == NULL) return FALSE;
     *pInfo = g_CalcFuncSets;
     return TRUE;
@@ -676,22 +676,4 @@ EXPORT BOOL CDECL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
  * 使用 #pragma 强制导出干净的函数名（MSVC兼容）
  * ============================================================ */
 #ifdef _MSC_VER
-#pragma comment(linker, "/EXPORT:RegisterTdxFunc=RegisterTdxFunc")
-#pragma comment(linker, "/EXPORT:ZEN_BI_FRAC=_ZEN_BI_FRAC@20")
-#pragma comment(linker, "/EXPORT:ZEN_BI=_ZEN_BI@20")
-#pragma comment(linker, "/EXPORT:ZEN_SEG=_ZEN_SEG@20")
-#pragma comment(linker, "/EXPORT:ZEN_ZS_HIGH=_ZEN_ZS_HIGH@20")
-#pragma comment(linker, "/EXPORT:ZEN_ZS_LOW=_ZEN_ZS_LOW@20")
-#pragma comment(linker, "/EXPORT:ZEN_BUY=_ZEN_BUY@20")
-#pragma comment(linker, "/EXPORT:ZEN_SELL=_ZEN_SELL@20")
-#pragma comment(linker, "/EXPORT:ZEN_MACD=_ZEN_MACD@20")
-#pragma comment(linker, "/EXPORT:ZEN_DIFF=_ZEN_DIFF@20")
-#pragma comment(linker, "/EXPORT:ZEN_DEA=_ZEN_DEA@20")
-#pragma comment(linker, "/EXPORT:ZEN_BI_FRAC_P=_ZEN_BI_FRAC_P@20")
-#pragma comment(linker, "/EXPORT:ZEN_BI_P=_ZEN_BI_P@20")
-#pragma comment(linker, "/EXPORT:ZEN_SEG_P=_ZEN_SEG_P@20")
-#pragma comment(linker, "/EXPORT:ZEN_ZS_HIGH_P=_ZEN_ZS_HIGH_P@20")
-#pragma comment(linker, "/EXPORT:ZEN_ZS_LOW_P=_ZEN_ZS_LOW_P@20")
-#pragma comment(linker, "/EXPORT:ZEN_BUY_P=_ZEN_BUY_P@20")
-#pragma comment(linker, "/EXPORT:ZEN_SELL_P=_ZEN_SELL_P@20")
 #endif
