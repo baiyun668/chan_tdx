@@ -666,7 +666,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
  *   RegisterTdxFunc(&pInfo);
  *   // 然后遍历 pInfo 数组直到 {0, NULL}
  */
-EXPORT BOOL STDCALL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
+EXPORT BOOL CDECL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
     if (pInfo == NULL) return FALSE;
     *pInfo = g_CalcFuncSets;
     return TRUE;
