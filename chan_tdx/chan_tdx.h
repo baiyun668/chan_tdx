@@ -40,8 +40,8 @@
 /* ============================================================
  * TDX DLL 函数签名
  * ============================================================ */
-typedef float (CDECL *TDX_FUNC)(int DataLen,
-                                 float *pfOUT,
+typedef float (STDCALL *TDX_FUNC)(int DataLen,
+                                   float *pfOUT,
                                  float *pfINa,
                                  float *pfINb,
                                  float *pfINc);
