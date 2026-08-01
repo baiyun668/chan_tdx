@@ -52,7 +52,7 @@ static int is_divergence(ChanState *s, int bi_out_idx, int bi_in_idx) {
  * 寻找笔所在的中枢
  * 返回中枢索引，-1=不在任何中枢
  * ============================================================ */
-static int __attribute__((unused)) find_zs_for_bi(ChanState *s, int bi_idx) {
+static int find_zs_for_bi(ChanState *s, int bi_idx) {
     for (int i = 0; i < s->zs_count; i++) {
         ZhongShu *zs = &s->zs_list[i];
         if (bi_idx >= zs->bi_begin && bi_idx <= zs->bi_end) {
@@ -80,7 +80,7 @@ static int find_zs_before_bi(ChanState *s, int bi_idx) {
 /* ============================================================
  * 寻找笔之后最近的中枢
  * ============================================================ */
-static int __attribute__((unused)) find_zs_after_bi(ChanState *s, int bi_idx) {
+static int find_zs_after_bi(ChanState *s, int bi_idx) {
     int best = -1;
     for (int i = 0; i < s->zs_count; i++) {
         if (s->zs_list[i].bi_begin > bi_idx) {
