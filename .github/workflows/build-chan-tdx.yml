@@ -1,0 +1,20 @@
+name: Build chan_tdx.dll
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      - name: Build
+        run: cl /O2 /LD /DDLL_EXPORTS main.c macd.c kline.c bi.c seg.c zs.c bsp.c /Fe:chan_tdx.dll
+        working-directory: chan_tdx
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chan_tdx-dll
+          path: chan_tdx/chan_tdx.dll

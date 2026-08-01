@@ -1,0 +1,23 @@
+LIBRARY chan_tdx
+EXPORTS
+    RegisterFunc
+    GetFunCount
+    GetFunName
+    GetFunPtr
+    ZEN_BI_FRAC
+    ZEN_BI
+    ZEN_SEG
+    ZEN_ZS_HIGH
+    ZEN_ZS_LOW
+    ZEN_BUY
+    ZEN_SELL
+    ZEN_MACD
+    ZEN_DIFF
+    ZEN_DEA
+    ZEN_BI_FRAC_P
+    ZEN_BI_P
+    ZEN_SEG_P
+    ZEN_ZS_HIGH_P
+    ZEN_ZS_LOW_P
+    ZEN_BUY_P
+    ZEN_SELL_P
