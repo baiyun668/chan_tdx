@@ -604,48 +604,50 @@ EXPORT float STDCALL ZEN_SELL_P(int DataLen, float *pfOUT,
 }
 
 /* ============================================================
- * 函数注册表
+ * 通达信标准DLL注册接口
+ *
+ * 按照 PluginTCalcFunc.h 规范实现
  * ============================================================ */
 
-/* TDX 函数注册结构 */
+/* 通达信函数类型 */
+typedef BOOL (STDCALL *pPluginFUNC)(int DataLen, float *pfOUT,
+                                     float *pfINa, float *pfINb,
+                                     float *pfINc, int nReserved);
+
+/* 通达信函数注册结构 */
 typedef struct {
-    const char *name;
-    TDX_FUNC    func;
-    const char *desc;
-} FuncEntry;
+    unsigned short nFuncMark;  /* 函数编号 */
+    pPluginFUNC    pFunc;      /* 函数指针 */
+} PluginTCalcFuncInfo;
 
-static FuncEntry func_table[] = {
-    /* 默认配置版本 */
-    {"ZEN_BI_FRAC",  ZEN_BI_FRAC,  "缠论分型标记: 1=顶, -1=底, 0=无"},
-    {"ZEN_BI",       ZEN_BI,       "缠论笔端点: 1=顶, -1=底, 0=无"},
-    {"ZEN_SEG",      ZEN_SEG,      "缠论线段端点: 1=顶, -1=底, 0=无"},
-    {"ZEN_ZS_HIGH",  ZEN_ZS_HIGH,  "缠论中枢上沿ZG"},
-    {"ZEN_ZS_LOW",   ZEN_ZS_LOW,   "缠论中枢下沿ZD"},
-    {"ZEN_BUY",      ZEN_BUY,      "缠论买点: 1/2/3=一二三买, 0=无"},
-    {"ZEN_SELL",     ZEN_SELL,     "缠论卖点: -1/-2/-3=一二三卖, 0=无"},
-    {"ZEN_MACD",     ZEN_MACD,     "MACD柱状图"},
-    {"ZEN_DIFF",     ZEN_DIFF,     "MACD DIFF线"},
-    {"ZEN_DEA",      ZEN_DEA,      "MACD DEA线"},
-
-    /* 带参数版本 */
-    {"ZEN_BI_FRAC_P", ZEN_BI_FRAC_P, "缠论分型(带参数)"},
-    {"ZEN_BI_P",      ZEN_BI_P,      "缠论笔(带参数)"},
-    {"ZEN_SEG_P",     ZEN_SEG_P,     "缠论线段(带参数)"},
-    {"ZEN_ZS_HIGH_P", ZEN_ZS_HIGH_P, "缠论中枢上沿(带参数)"},
-    {"ZEN_ZS_LOW_P",  ZEN_ZS_LOW_P,  "缠论中枢下沿(带参数)"},
-    {"ZEN_BUY_P",     ZEN_BUY_P,     "缠论买点(带参数)"},
-    {"ZEN_SELL_P",    ZEN_SELL_P,    "缠论卖点(带参数)"},
-    {NULL, NULL, NULL}
+/*
+ * 函数注册表
+ * 编号1-10: 默认配置版本
+ * 编号11-17: 带参数版本
+ * 以 {0, NULL} 结尾
+ */
+static PluginTCalcFuncInfo g_CalcFuncSets[] = {
+    {1,  (pPluginFUNC)ZEN_BI_FRAC},   /* 分型标记 */
+    {2,  (pPluginFUNC)ZEN_BI},        /* 笔端点 */
+    {3,  (pPluginFUNC)ZEN_SEG},       /* 线段端点 */
+    {4,  (pPluginFUNC)ZEN_ZS_HIGH},   /* 中枢上沿 */
+    {5,  (pPluginFUNC)ZEN_ZS_LOW},    /* 中枢下沿 */
+    {6,  (pPluginFUNC)ZEN_BUY},       /* 买点 */
+    {7,  (pPluginFUNC)ZEN_SELL},      /* 卖点 */
+    {8,  (pPluginFUNC)ZEN_MACD},      /* MACD柱 */
+    {9,  (pPluginFUNC)ZEN_DIFF},      /* DIFF线 */
+    {10, (pPluginFUNC)ZEN_DEA},       /* DEA线 */
+    {11, (pPluginFUNC)ZEN_BI_FRAC_P}, /* 分型(带参数) */
+    {12, (pPluginFUNC)ZEN_BI_P},      /* 笔(带参数) */
+    {13, (pPluginFUNC)ZEN_SEG_P},     /* 线段(带参数) */
+    {14, (pPluginFUNC)ZEN_ZS_HIGH_P}, /* 中枢上(带参数) */
+    {15, (pPluginFUNC)ZEN_ZS_LOW_P},  /* 中枢下(带参数) */
+    {16, (pPluginFUNC)ZEN_BUY_P},     /* 买点(带参数) */
+    {17, (pPluginFUNC)ZEN_SELL_P},    /* 卖点(带参数) */
+    {0,  NULL}                          /* 结束标记 */
 };
 
-/* ============================================================
- * DLL导出函数
- *
- * TDX通过此函数获取DLL提供的所有可用函数
- * 返回值: 函数个数
- * ============================================================ */
 #ifdef _WIN32
-/* Windows DLL 入口 */
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
     (void)hinstDLL; (void)fdwReason; (void)lpvReserved;
     return TRUE;
@@ -653,49 +655,19 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
 #endif
 
 /*
- * RegisterFunc - TDX DLL标准注册接口
+ * RegisterTdxFunc - 通达信DLL标准注册入口
  *
- * TDX调用此函数获取DLL中所有可用的函数
- * pfn: 回调函数，TDX通过它注册每个函数
+ * 通达信调用此函数获取DLL中所有可用的函数
+ * 参数: pInfo - 指向函数信息指针的指针
+ * 返回: TRUE=成功
  *
- * 注意：TDX使用 __cdecl 调用约定注册函数
- *       但函数本身是 __stdcall
+ * TDX通过以下方式调用:
+ *   PluginTCalcFuncInfo *pInfo = NULL;
+ *   RegisterTdxFunc(&pInfo);
+ *   // 然后遍历 pInfo 数组直到 {0, NULL}
  */
-EXPORT int CDECL RegisterFunc(void (*pfn)(const char *name, void *func, const char *desc)) {
-    int count = 0;
-    for (int i = 0; func_table[i].name != NULL; i++) {
-        if (pfn) {
-            pfn(func_table[i].name, (void *)func_table[i].func, func_table[i].desc);
-        }
-        count++;
-    }
-    return count;
-}
-
-/* ============================================================
- * 兼容旧版TDX的注册方式
- * 有些TDX版本使用 GetFunCount + GetFunInfo 方式
- * ============================================================ */
-EXPORT int CDECL GetFunCount(void) {
-    int count = 0;
-    for (int i = 0; func_table[i].name != NULL; i++) count++;
-    return count;
-}
-
-EXPORT const char* CDECL GetFunName(int idx) {
-    int count = 0;
-    for (int i = 0; func_table[i].name != NULL; i++) {
-        if (count == idx) return func_table[i].name;
-        count++;
-    }
-    return NULL;
-}
-
-EXPORT void* CDECL GetFunPtr(int idx) {
-    int count = 0;
-    for (int i = 0; func_table[i].name != NULL; i++) {
-        if (count == idx) return (void *)func_table[i].func;
-        count++;
-    }
-    return NULL;
+EXPORT BOOL CDECL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
+    if (pInfo == NULL) return FALSE;
+    *pInfo = g_CalcFuncSets;
+    return TRUE;
 }
