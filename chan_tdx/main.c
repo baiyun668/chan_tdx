@@ -168,7 +168,7 @@ void chan_compute_all(ChanState *s) {
  *
  * 输出：1=顶分型, -1=底分型, 0=无
  * ============================================================ */
-EXPORT float CDECL ZEN_BI_FRAC(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_BI_FRAC(int DataLen, float *pfOUT,
                                   float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -195,7 +195,7 @@ EXPORT float CDECL ZEN_BI_FRAC(int DataLen, float *pfOUT,
  *
  * 输出：1=笔顶点, -1=笔底点, 0=非笔端点
  * ============================================================ */
-EXPORT float CDECL ZEN_BI(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_BI(int DataLen, float *pfOUT,
                              float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -236,7 +236,7 @@ EXPORT float CDECL ZEN_BI(int DataLen, float *pfOUT,
  *
  * 输出：1=线段顶, -1=线段底, 0=非线段端点
  * ============================================================ */
-EXPORT float CDECL ZEN_SEG(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_SEG(int DataLen, float *pfOUT,
                               float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -273,7 +273,7 @@ EXPORT float CDECL ZEN_SEG(int DataLen, float *pfOUT,
 /* ============================================================
  * TDX 函数: ZEN_ZS_HIGH - 中枢上沿
  * ============================================================ */
-EXPORT float CDECL ZEN_ZS_HIGH(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_ZS_HIGH(int DataLen, float *pfOUT,
                                   float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -300,7 +300,7 @@ EXPORT float CDECL ZEN_ZS_HIGH(int DataLen, float *pfOUT,
 /* ============================================================
  * TDX 函数: ZEN_ZS_LOW - 中枢下沿
  * ============================================================ */
-EXPORT float CDECL ZEN_ZS_LOW(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_ZS_LOW(int DataLen, float *pfOUT,
                                  float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -330,7 +330,7 @@ EXPORT float CDECL ZEN_ZS_LOW(int DataLen, float *pfOUT,
  *       11=盘整一买, 22=类二买
  *       0=无买点
  * ============================================================ */
-EXPORT float CDECL ZEN_BUY(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_BUY(int DataLen, float *pfOUT,
                               float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -367,7 +367,7 @@ EXPORT float CDECL ZEN_BUY(int DataLen, float *pfOUT,
  * 输出：负数 = 卖点类型 (-1=一卖, -2=二卖, -3=三卖)
  *       0=无卖点
  * ============================================================ */
-EXPORT float CDECL ZEN_SELL(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_SELL(int DataLen, float *pfOUT,
                                float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     ensure_computed(&g_state);
@@ -401,7 +401,7 @@ EXPORT float CDECL ZEN_SELL(int DataLen, float *pfOUT,
 /* ============================================================
  * TDX 函数: ZEN_MACD - MACD值
  * ============================================================ */
-EXPORT float CDECL ZEN_MACD(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_MACD(int DataLen, float *pfOUT,
                                float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
 
@@ -419,7 +419,7 @@ EXPORT float CDECL ZEN_MACD(int DataLen, float *pfOUT,
 /* ============================================================
  * TDX 函数: ZEN_DIFF - DIFF线
  * ============================================================ */
-EXPORT float CDECL ZEN_DIFF(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_DIFF(int DataLen, float *pfOUT,
                                float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     chan_macd_compute(&g_state);
@@ -434,7 +434,7 @@ EXPORT float CDECL ZEN_DIFF(int DataLen, float *pfOUT,
 /* ============================================================
  * TDX 函数: ZEN_DEA - DEA线
  * ============================================================ */
-EXPORT float CDECL ZEN_DEA(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_DEA(int DataLen, float *pfOUT,
                               float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx_simple(&g_state, DataLen, pfINa, pfINb, pfINc);
     chan_macd_compute(&g_state);
@@ -450,7 +450,7 @@ EXPORT float CDECL ZEN_DEA(int DataLen, float *pfOUT,
  * 带参数的版本：使用 pfINc 的前16个元素作为参数
  * 数据从 pfINc[16] 开始
  * ============================================================ */
-EXPORT float CDECL ZEN_BI_FRAC_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_BI_FRAC_P(int DataLen, float *pfOUT,
                                     float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -470,7 +470,7 @@ EXPORT float CDECL ZEN_BI_FRAC_P(int DataLen, float *pfOUT,
     return 0.0f;
 }
 
-EXPORT float CDECL ZEN_BI_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_BI_P(int DataLen, float *pfOUT,
                                float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -495,7 +495,7 @@ EXPORT float CDECL ZEN_BI_P(int DataLen, float *pfOUT,
     return 0.0f;
 }
 
-EXPORT float CDECL ZEN_SEG_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_SEG_P(int DataLen, float *pfOUT,
                                 float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -517,7 +517,7 @@ EXPORT float CDECL ZEN_SEG_P(int DataLen, float *pfOUT,
     return 0.0f;
 }
 
-EXPORT float CDECL ZEN_ZS_HIGH_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_ZS_HIGH_P(int DataLen, float *pfOUT,
                                     float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -534,7 +534,7 @@ EXPORT float CDECL ZEN_ZS_HIGH_P(int DataLen, float *pfOUT,
     return 0.0f;
 }
 
-EXPORT float CDECL ZEN_ZS_LOW_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_ZS_LOW_P(int DataLen, float *pfOUT,
                                    float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -551,7 +551,7 @@ EXPORT float CDECL ZEN_ZS_LOW_P(int DataLen, float *pfOUT,
     return 0.0f;
 }
 
-EXPORT float CDECL ZEN_BUY_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_BUY_P(int DataLen, float *pfOUT,
                                 float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -577,7 +577,7 @@ EXPORT float CDECL ZEN_BUY_P(int DataLen, float *pfOUT,
     return 0.0f;
 }
 
-EXPORT float CDECL ZEN_SELL_P(int DataLen, float *pfOUT,
+EXPORT float STDCALL ZEN_SELL_P(int DataLen, float *pfOUT,
                                  float *pfINa, float *pfINb, float *pfINc) {
     init_from_tdx(&g_state, DataLen, pfINa, pfINb, pfINc, 1);
     ensure_computed(&g_state);
@@ -610,7 +610,7 @@ EXPORT float CDECL ZEN_SELL_P(int DataLen, float *pfOUT,
  * ============================================================ */
 
 /* 通达信函数类型 */
-typedef BOOL (CDECL *pPluginFUNC)(int DataLen, float *pfOUT,
+typedef BOOL (STDCALL *pPluginFUNC)(int DataLen, float *pfOUT,
                                      float *pfINa, float *pfINb,
                                      float *pfINc, int nReserved);
 
@@ -666,8 +666,32 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
  *   RegisterTdxFunc(&pInfo);
  *   // 然后遍历 pInfo 数组直到 {0, NULL}
  */
-EXPORT BOOL CDECL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
+EXPORT BOOL STDCALL RegisterTdxFunc(PluginTCalcFuncInfo **pInfo) {
     if (pInfo == NULL) return FALSE;
     *pInfo = g_CalcFuncSets;
     return TRUE;
 }
+
+/* ============================================================
+ * 使用 #pragma 强制导出干净的函数名（MSVC兼容）
+ * ============================================================ */
+#ifdef _MSC_VER
+#pragma comment(linker, "/EXPORT:RegisterTdxFunc=RegisterTdxFunc")
+#pragma comment(linker, "/EXPORT:ZEN_BI_FRAC=_ZEN_BI_FRAC@20")
+#pragma comment(linker, "/EXPORT:ZEN_BI=_ZEN_BI@20")
+#pragma comment(linker, "/EXPORT:ZEN_SEG=_ZEN_SEG@20")
+#pragma comment(linker, "/EXPORT:ZEN_ZS_HIGH=_ZEN_ZS_HIGH@20")
+#pragma comment(linker, "/EXPORT:ZEN_ZS_LOW=_ZEN_ZS_LOW@20")
+#pragma comment(linker, "/EXPORT:ZEN_BUY=_ZEN_BUY@20")
+#pragma comment(linker, "/EXPORT:ZEN_SELL=_ZEN_SELL@20")
+#pragma comment(linker, "/EXPORT:ZEN_MACD=_ZEN_MACD@20")
+#pragma comment(linker, "/EXPORT:ZEN_DIFF=_ZEN_DIFF@20")
+#pragma comment(linker, "/EXPORT:ZEN_DEA=_ZEN_DEA@20")
+#pragma comment(linker, "/EXPORT:ZEN_BI_FRAC_P=_ZEN_BI_FRAC_P@20")
+#pragma comment(linker, "/EXPORT:ZEN_BI_P=_ZEN_BI_P@20")
+#pragma comment(linker, "/EXPORT:ZEN_SEG_P=_ZEN_SEG_P@20")
+#pragma comment(linker, "/EXPORT:ZEN_ZS_HIGH_P=_ZEN_ZS_HIGH_P@20")
+#pragma comment(linker, "/EXPORT:ZEN_ZS_LOW_P=_ZEN_ZS_LOW_P@20")
+#pragma comment(linker, "/EXPORT:ZEN_BUY_P=_ZEN_BUY_P@20")
+#pragma comment(linker, "/EXPORT:ZEN_SELL_P=_ZEN_SELL_P@20")
+#endif
